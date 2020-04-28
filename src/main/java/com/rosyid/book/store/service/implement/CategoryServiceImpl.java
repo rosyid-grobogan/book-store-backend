@@ -1,4 +1,4 @@
-package com.rosyid.book.store.implement;
+package com.rosyid.book.store.service.implement;
 
 import com.rosyid.book.store.entity.Category;
 import com.rosyid.book.store.model.CategoryModel;
