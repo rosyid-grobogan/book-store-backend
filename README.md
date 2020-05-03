@@ -114,3 +114,29 @@ spring.jpa.properties.hibernate.format_sql=true
     <version>0.9.1</version>
 </dependency>
 ```
+
+## Insert Examples
+### Admin Page
+Create new product
+```
+{
+  "categoryId": 1,
+  "description": "string",
+  "name": "Belajar Java",
+  "photoId": 0,
+  "price": 120000,
+  
+  "productCategoryId": {
+    "categoryStatus": "SHOWED",
+
+    "id": 1,
+    "name": "Komputer",
+    "parentId": 0,
+    "slug": "komputer"
+  },
+  "productStatus": "FOR_SELL",
+  "quantity": 10,
+  "slug": "belajar-java"
+
+}
+```

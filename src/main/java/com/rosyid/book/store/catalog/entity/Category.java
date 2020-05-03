@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,11 +23,19 @@ public class Category extends CatalogEntityPersistence
 
     private String name;
     private String slug;
-    private Integer parentId;
-    private Boolean categoryStatus;
 
-//    public enum EnumCategoryStatus
-//    {
-//        ACTIVED, INACTIVED
-//    }
+    @Column(nullable = true)
+    private Integer parentId;
+
+    @Enumerated(EnumType.STRING)
+    private CategoryStatus categoryStatus;
+
+    @Where(clause = "status = 'ACTIVE'")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ProductCategoryId", fetch = FetchType.LAZY)
+    private Set<Product> products;
+
+    public enum CategoryStatus
+    {
+        SHOWED, HIDDEN
+    }
 }

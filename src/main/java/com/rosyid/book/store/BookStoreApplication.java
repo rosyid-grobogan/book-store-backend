@@ -36,8 +36,8 @@ public class BookStoreApplication {
 	@PostConstruct
 	public void initCategory(){
 		List<Category> categories = Stream.of(
-				new Category("Komputer", "komputer", null, true),
-				new Category("Matematika", "matematika", null, true)
+				new Category("Komputer", "komputer", null, Category.CategoryStatus.SHOWED, null),
+				new Category("Matematika", "matematika", null, Category.CategoryStatus.SHOWED, null)
 		).collect(Collectors.toList() );
 		categoryRepository.saveAll(categories);
 	}
