@@ -1,5 +1,47 @@
 # Book Store Project - Backend
 
+## User
+
+1. Register, Login, Logout (done)
+2. HomePage
+3. List Buku
+4. Search
+5. Add to Favorite
+6. Detail Buku
+7. Add to Cart
+8. Checkout
+9. Payment via Wallet
+10. Konfirmasi Pembelian Page
+11. Status Pembelian Page
+
+## Admin
+
+1. Register, Login, Logout
+2. CRUD Buku
+3. CRUD kategori (done)
+4. CRUD Daftar Pembelian
+5. Status Pendapatan
+
+## Category
+/api/v1/admin/categories
+- save
+- update
+- deleteById/{id}
+- findAll
+- findById/{id}
+
+## HTTP Header
+Content-Type : [{"key":"Content-Type","value":"application/json","description":"","type":"text","enabled":true}]
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb3N5aWQiLCJpYXQiOjE1ODgxMjExMzIsImV4cCI6MTU4ODEyMTEzN30.foHbKUF5Edw3eCfB1wsmGIz1t-GGpG2zU2LaBZJ9HGa0BoXnRqgmQpvkyzTISB7nZLbHREcvcqOjtEijjW-VoQ
+
+## REST APIs
+|      | API Name           | HTTP Method | Path                  | Status Code    | Desciption                        |
+| ---- | ------------------ | ----------- | --------------------- | -------------- | --------------------------------- |
+| 1    | GET Products       | GET         | /api/v1/products      | 200 OK         | All product resources are fetched |
+| 2    | POST Products      | POST        | /api/v1/products      | 201 Created    | A new product resource is created |
+| 3    | GET Products       | GET         | /api/v1/products/{id} | 200 OK         | One product resource is fetched   |
+| 4    | PUT/PATCH Products | PUT/PATCH   | /api/v1/products/{id} | 200 OK         | Product resource is updated       |
+| 5    | DELETE Products    | DELETE      | /api/v1/products/{id} | 204 No Content | Product resource is deleted       |
 
 ## pom.xml
 ```
