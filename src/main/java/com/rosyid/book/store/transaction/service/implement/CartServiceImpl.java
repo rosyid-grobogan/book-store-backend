@@ -94,7 +94,7 @@ public class CartServiceImpl implements CartService
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public CartResponse deleteByCartDetailId(Integer detailId) {
+    public CartResponse deleteByCartDetailId(Long detailId) {
         CartDetail cartDetail = cartDetailRepository.findById(detailId).orElse(null);
         if (cartDetail == null)
             throw new HttpServerErrorException(HttpStatus.BAD_REQUEST, "Cart Detail with id: " + detailId + " not found");
@@ -136,4 +136,5 @@ public class CartServiceImpl implements CartService
     public CartResponse findByUserId(Long userId) {
         return constructModel(cartRepository.findByUserId(userId));
     }
+
 }
