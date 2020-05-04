@@ -6,7 +6,7 @@
 2. HomePage
 3. List Buku
 4. Search
-5. Add to Favorite
+5. Add to Favorite (done)
 6. Detail Buku
 7. Add to Cart
 8. Checkout

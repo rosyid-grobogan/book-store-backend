@@ -13,5 +13,5 @@ public interface FavouriteService extends CatalogServicePersistence<FavouriteRes
 
     FavouriteResponse findByUsername(String username);
 
-    FavouriteResponse deleteByFavouriteBookDetailId(Long detailId);
+    FavouriteResponse deleteByFavouriteDetailId(Long detailId);
 }

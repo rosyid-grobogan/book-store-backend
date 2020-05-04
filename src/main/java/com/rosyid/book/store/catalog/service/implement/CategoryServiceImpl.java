@@ -227,6 +227,7 @@ public class CategoryServiceImpl implements CategoryService
         categoryRepository.findAll()
                 .forEach( data -> {
                     CategoryResponse entity = new CategoryResponse();
+
                     BeanUtils.copyProperties(data, entity);
                     entities.add(entity);
                 });

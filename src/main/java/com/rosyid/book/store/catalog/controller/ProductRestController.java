@@ -42,7 +42,8 @@ public class ProductRestController
      * @return
      * @throws IOException
      */
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+//    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping()
     public ProductResponse createProduct(@RequestBody @Valid ProductRequest request,
                                          BindingResult result,
                                          HttpServletResponse response
@@ -80,7 +81,7 @@ public class ProductRestController
      * @return
      * @throws IOException
      */
-    @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{id}")
     public ProductResponse updateProduct(@PathVariable("id") Long id,
             @RequestBody @Valid ProductRequestUpdate requestUpdate,
                                          BindingResult result,

@@ -53,7 +53,7 @@ public class CategoryRestController
      */
 //    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping()
-    public CategoryResponse create(
+    public CategoryResponse createCategory(
             @Valid @RequestBody CategoryRequest request,
             BindingResult result,
             HttpServletResponse response) throws IOException

@@ -9,6 +9,7 @@ import com.rosyid.book.store.catalog.entity.FavouriteDetail;
 import com.rosyid.book.store.catalog.entity.Product;
 import com.rosyid.book.store.catalog.payload.request.FavouriteRequest;
 import com.rosyid.book.store.catalog.payload.response.FavouriteResponse;
+import com.rosyid.book.store.catalog.persistence.CatalogEntityPersistence;
 import com.rosyid.book.store.catalog.repository.FavouriteDetailRepository;
 import com.rosyid.book.store.catalog.repository.FavouriteRepository;
 import com.rosyid.book.store.catalog.repository.ProductRepository;
@@ -98,10 +99,6 @@ public class FavouriteServiceImpl implements FavouriteService
         return null;
     }
 
-    @Override
-    public FavouriteResponse deleteByFavouriteBookDetailId(Long detailId) {
-        return null;
-    }
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
@@ -143,5 +140,16 @@ public class FavouriteServiceImpl implements FavouriteService
         favouriteBookDetail.setProduct(product);
         favouriteBookDetail.setFavourite(favourite);
         return favouriteDetailRepository.save(favouriteBookDetail);
+    }
+
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public FavouriteResponse deleteByFavouriteDetailId(Long detailId) {
+        FavouriteDetail favouriteBookDetail = favouriteDetailRepository.findById(detailId).orElse(null);
+        if (favouriteBookDetail == null)
+            throw new HttpServerErrorException(HttpStatus.BAD_REQUEST, "Favourite Book Detail with id: " + detailId + " not found");
+        favouriteBookDetail.setStatus(CatalogEntityPersistence.Status.INACTIVE);
+        favouriteBookDetail = favouriteDetailRepository.save(favouriteBookDetail);
+        return constructModel(favouriteBookDetail.getFavourite());
     }
 }

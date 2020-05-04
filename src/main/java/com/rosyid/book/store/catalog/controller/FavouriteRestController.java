@@ -17,7 +17,7 @@ import java.util.List;
 
 @Api
 @RestController
-@RequestMapping("/api/v1/user/favourite")
+@RequestMapping("/api/v1/user/favourites")
 public class FavouriteRestController
 {
     @Autowired
@@ -45,7 +45,7 @@ public class FavouriteRestController
 
     @DeleteMapping("/deleteByFavouriteBookDetailId/{detailId}")
     public FavouriteResponse delete(@PathVariable("detailId") final Long detailId) {
-        return favouriteService.deleteByFavouriteBookDetailId(detailId);
+        return favouriteService.deleteByFavouriteDetailId(detailId);
     }
 
     @GetMapping("/findAll")

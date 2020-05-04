@@ -40,20 +40,20 @@ public class ProductServiceImpl implements ProductService
     @Override
     public List<ProductResponse> findAll()
     {
-        List<ProductResponse> productResponseList = new ArrayList<>();
+        List<ProductResponse> entities = new ArrayList<>();
         productRepository.findAll().forEach(data -> {
-            ProductResponse productResponse = new ProductResponse();
-            BeanUtils.copyProperties(data, productResponse);
+            ProductResponse entity = new ProductResponse();
+            BeanUtils.copyProperties(data, entity);
 
             CategoryResponse categoryResponse = new CategoryResponse();
             BeanUtils.copyProperties(data.getProductCategoryId(), categoryResponse);
 
-            productResponse.setCategoryId(data.getProductCategoryId().getId());
-            productResponse.setProductCategoryId(categoryResponse);
+            entity.setCategoryId(data.getProductCategoryId().getId());
+            entity.setProductCategoryId(categoryResponse);
 
-            productResponseList.add(productResponse);
+            entities.add(entity);
         });
-        return productResponseList;
+        return entities;
     }
 
 
