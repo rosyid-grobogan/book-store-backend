@@ -42,7 +42,7 @@ public class ProductRestController
      * @return
      * @throws IOException
      */
-    @PostMapping()
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ProductResponse createProduct(@RequestBody @Valid ProductRequest request,
                                          BindingResult result,
                                          HttpServletResponse response

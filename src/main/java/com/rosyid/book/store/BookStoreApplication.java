@@ -4,8 +4,12 @@ import com.rosyid.book.store.account.entity.EnumRole;
 import com.rosyid.book.store.account.entity.Role;
 import com.rosyid.book.store.account.repository.RoleRepository;
 import com.rosyid.book.store.catalog.entity.Category;
+import com.rosyid.book.store.catalog.entity.EnumProductStatus;
 import com.rosyid.book.store.catalog.entity.EnumVisibility;
+import com.rosyid.book.store.catalog.entity.Product;
+import com.rosyid.book.store.catalog.persistence.CatalogEntityPersistence;
 import com.rosyid.book.store.catalog.repository.CategoryRepository;
+import com.rosyid.book.store.catalog.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,6 +26,8 @@ public class BookStoreApplication {
 	private RoleRepository roleRepository;
 	@Autowired
 	private CategoryRepository categoryRepository;
+	@Autowired
+	private ProductRepository productRepository;
 
 	@PostConstruct
 	public void initRole(){
@@ -43,6 +49,14 @@ public class BookStoreApplication {
 		categoryRepository.saveAll(categories);
 	}
 
+//	@PostConstruct
+//	public void initProduct(){
+//		List<Product> products = Stream.of(
+//				new Product("Pemrograman Java dengan Spring 4", "pemrograman-java-dengan-spring-4", 1, 85000.00,10, "Tulis detail lagi", 1, EnumProductStatus.FOR_SELL, EnumVisibility.VISIBLE)
+//
+//		).collect(Collectors.toList() );
+//		productRepository.saveAll(products);
+//	}
 	public static void main(String[] args) {
 		SpringApplication.run(BookStoreApplication.class, args);
 	}
