@@ -17,7 +17,7 @@
 ## Admin
 
 1. Register, Login, Logout
-2. CRUD Buku
+2. CRUD Buku/Product (done) 
 3. CRUD kategori (done)
 4. CRUD Daftar Pembelian
 5. Status Pendapatan
@@ -114,29 +114,42 @@ spring.jpa.properties.hibernate.format_sql=true
     <version>0.9.1</version>
 </dependency>
 ```
+## Entity
+## Update Data 
+- CreatedBy and CreatedAt are not changed
+- Id cannot changed
 
 ## Insert Examples
 ### Admin Page
 Create new product
 ```
+# 2 Sample
 {
   "categoryId": 1,
-  "description": "string",
+  "description": "Buku rekomendasi buat Anda",
   "name": "Belajar Java",
   "photoId": 0,
   "price": 120000,
-  
-  "productCategoryId": {
-    "categoryStatus": "SHOWED",
-
-    "id": 1,
-    "name": "Komputer",
-    "parentId": 0,
-    "slug": "komputer"
-  },
+  "productCategoryId": { "id": 1  },
   "productStatus": "FOR_SELL",
   "quantity": 10,
-  "slug": "belajar-java"
-
+  "slug": "belajar-java",
+    "productVisibility": "VISIBLE"
+}
+{
+  "categoryId": 1,
+  "description": "Buku rekomendasi buat Anda",
+  "name": "Belajar PHP",
+  "photoId": 0,
+  "price": 124000,
+  "productCategoryId": { "id": 1  },
+  "productStatus": "OUT_OF_STOCK",
+  "quantity": 5,
+  "slug": "belajar-php",
+    "productVisibility": "VISIBLE"
 }
 ```
+Value of productStatus:
+- FOR_SELL : Button is actived and it's available for selling.
+- OUT_OF_STOCK : Disable button.
+- HIDDEN : Product price is not visible.

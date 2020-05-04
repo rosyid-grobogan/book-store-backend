@@ -52,8 +52,11 @@ public class CatalogEntityPersistence {
         setCreatedBy("system");
     }
 
+    @PreUpdate
     public void preUpdate() {
         setUpdatedBy("system");
         setUpdatedAt(new Date());
+//        setCreatedBy(getCreatedBy());
+//        setCreatedAt(getCreatedAt());
     }
 }

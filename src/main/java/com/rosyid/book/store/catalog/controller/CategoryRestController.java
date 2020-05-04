@@ -22,7 +22,8 @@ import java.util.List;
 //@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/v1/admin/categories")
-public class CategoryRestController {
+public class CategoryRestController
+{
     @Autowired
     private CategoryService categoryService;
 
@@ -33,7 +34,7 @@ public class CategoryRestController {
      *
      * @return
      */
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping()
     public List<CategoryResponse> getAll()
     {
@@ -50,7 +51,7 @@ public class CategoryRestController {
      * @return
      * @throws IOException
      */
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping()
     public CategoryResponse create(
             @Valid @RequestBody CategoryRequest request,
@@ -76,7 +77,7 @@ public class CategoryRestController {
      * @param id
      * @return
      */
-        @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}")
     public CategoryResponse getById(@PathVariable("id") final Long id)
     {
@@ -106,7 +107,7 @@ public class CategoryRestController {
      * @return
      * @throws IOException
      */
-        @PreAuthorize("hasRole('ADMIN')")
+//        @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/{id}")
     public CategoryResponse update(
 
@@ -132,7 +133,7 @@ public class CategoryRestController {
      * @param id
      * @return
      */
-        @PreAuthorize("hasRole('ADMIN')")
+//        @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public CategoryResponse deleteById(@PathVariable("id") final Long id) {
 

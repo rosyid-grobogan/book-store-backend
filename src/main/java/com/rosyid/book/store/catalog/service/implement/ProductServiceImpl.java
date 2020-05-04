@@ -4,6 +4,7 @@ import com.rosyid.book.store.catalog.entity.Category;
 import com.rosyid.book.store.catalog.entity.Product;
 import com.rosyid.book.store.catalog.payload.response.CategoryResponse;
 import com.rosyid.book.store.catalog.payload.response.ProductResponse;
+import com.rosyid.book.store.catalog.persistence.CatalogEntityPersistence;
 import com.rosyid.book.store.catalog.repository.CategoryRepository;
 import com.rosyid.book.store.catalog.repository.ProductRepository;
 import com.rosyid.book.store.catalog.service.ProductService;
@@ -15,8 +16,14 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpServerErrorException;
 
+import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Find ALl Product
+ * Find By
+ * Save or Update
+ */
 @Service
 public class ProductServiceImpl implements ProductService
 {
@@ -25,16 +32,82 @@ public class ProductServiceImpl implements ProductService
     @Autowired
     private CategoryRepository categoryRepository;
 
+
+    /**
+     * Find All Product
+     * @return
+     */
+    @Override
+    public List<ProductResponse> findAll()
+    {
+        List<ProductResponse> productResponseList = new ArrayList<>();
+        productRepository.findAll().forEach(data -> {
+            ProductResponse productResponse = new ProductResponse();
+            BeanUtils.copyProperties(data, productResponse);
+
+            CategoryResponse categoryResponse = new CategoryResponse();
+            BeanUtils.copyProperties(data.getProductCategoryId(), categoryResponse);
+
+            productResponse.setCategoryId(data.getProductCategoryId().getId());
+            productResponse.setProductCategoryId(categoryResponse);
+
+            productResponseList.add(productResponse);
+        });
+        return productResponseList;
+    }
+
+
+    /**
+     * Find By Id
+     * @param id
+     * @return
+     */
+    @Override
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    public ProductResponse findById(Long id)
+    {
+        if (id != null)
+        {
+            ProductResponse productResponse = new ProductResponse();
+            Product product = productRepository.findById(id).orElse(null);
+
+            if (product == null)
+            {
+                throw new HttpServerErrorException(HttpStatus.BAD_REQUEST, "Product with id:"+ id + " not found");
+            }
+
+            CategoryResponse categoryResponse = new CategoryResponse();
+            BeanUtils.copyProperties(product.getProductCategoryId(), categoryResponse);
+            productResponse.setCategoryId(product.getProductCategoryId().getId());
+            productResponse.setProductCategoryId(categoryResponse);
+
+            BeanUtils.copyProperties(product, productResponse);
+            return productResponse;
+        }else {
+            throw new HttpServerErrorException(HttpStatus.BAD_REQUEST, "Id cannot be null");
+        }
+
+    }
+
+
+    /**
+     * Save or Update
+     * @param entity
+     * @return
+     */
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public ProductResponse saveOrUpdate(ProductResponse entity) {
-
+    public ProductResponse saveOrUpdate(ProductResponse entity)
+    {
         Product product;
         Category category;
+
+        // Get Id
         if (entity.getId() != null)
         {
             product = productRepository.findById( entity.getId() ).orElse(null);
-            if (product == null)
+
+            if ( product == null )
             {
                 throw new HttpServerErrorException(HttpStatus.BAD_REQUEST,
                         "Product with id: "+ entity.getId() +" not found"
@@ -46,7 +119,16 @@ public class ProductServiceImpl implements ProductService
                 product.setProductCategoryId(category);
             }
 
-            BeanUtils.copyProperties(entity, product);
+            //BeanUtils.copyProperties(entity, product);
+            product.setName(entity.getName());
+            product.setSlug(entity.getSlug());
+            product.setPhotoId(entity.getPhotoId());
+            product.setPrice(entity.getPrice());
+            product.setQuantity(entity.getQuantity());
+            product.setDescription(entity.getDescription());
+            product.setProductStatus(entity.getProductStatus());
+            product.setVisibility(entity.getVisibility());
+
             product = productRepository.save(product);
         }
         else {
@@ -73,31 +155,72 @@ public class ProductServiceImpl implements ProductService
         entity.setProductCategoryId(categoryResponse);
 
         return entity;
-//        return null;
+
     }
 
+
+    /**
+     *
+     * @param entity
+     * @return
+     */
     @Override
-    public ProductResponse delete(ProductResponse entity) {
-        return null;
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public ProductResponse delete(ProductResponse entity)
+    {
+        if (entity.getId() != null)
+        {
+            Product product = productRepository.findById(entity.getId()).orElse(null);
+
+            if (product == null) {
+                throw new HttpServerErrorException(HttpStatus.BAD_REQUEST,
+                        "Product with id: " + entity.getId() + " not found"
+                );
+            }
+            product.setStatus(CatalogEntityPersistence.Status.INACTIVE);
+            product = productRepository.save(product);
+            return entity;
+        }else {
+            throw new HttpServerErrorException(HttpStatus.BAD_REQUEST, "Id cannot be null");
+        }
     }
 
+
+
+    /**
+     *
+     * @param id
+     * @return
+     */
     @Override
-    public ProductResponse deleteById(Long aLong) {
-        return null;
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public ProductResponse deleteById(Long id)
+    {
+        if (id != null)
+        {
+            ProductResponse productResponse =  new ProductResponse();
+            Product product = productRepository.findById(id).orElse(null);
+
+            if (product == null)
+            {
+                throw new HttpServerErrorException(HttpStatus.BAD_REQUEST, "Product with id: "+ id +" not found");
+            }
+
+            product.setStatus(CatalogEntityPersistence.Status.INACTIVE);
+            product = productRepository.save(product);
+
+            BeanUtils.copyProperties(product, productResponse);
+            return productResponse;
+        }else {
+            throw new HttpServerErrorException(HttpStatus.BAD_REQUEST, "Id cannot be null");
+        }
+
     }
 
-    @Override
-    public ProductResponse findById(Long aLong) {
-        return null;
-    }
 
     @Override
-    public List<ProductResponse> findAll() {
-        return null;
-    }
-
-    @Override
-    public Long countAll() {
+    public Long countAll()
+    {
         return null;
     }
 }

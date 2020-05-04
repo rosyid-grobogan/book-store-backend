@@ -61,14 +61,15 @@ public class CategoryServiceImpl implements CategoryService
 
             if ( category == null )
             {
-                throw new HttpServerErrorException(HttpStatus.BAD_REQUEST, "Category with id: " + entity.getId() + "not found");
+                throw new HttpServerErrorException(HttpStatus.BAD_REQUEST,
+                        "Category with id: " + entity.getId() + "not found");
             }
 
             // update dengan data baru
             category.setName( entity.getName() );
             category.setSlug( entity.getSlug() );
             category.setParentId( entity.getParentId() );
-            category.setCategoryStatus( entity.getCategoryStatus() );
+            category.setVisibility( entity.getVisibility() );
 
             categoryRepository.save( category );
 
@@ -82,7 +83,7 @@ public class CategoryServiceImpl implements CategoryService
             category.setName( entity.getName() );
             category.setSlug( entity.getSlug() );
             category.setParentId( entity.getParentId() );
-            category.setCategoryStatus( entity.getCategoryStatus() );
+            category.setVisibility( entity.getVisibility() );
 
             categoryRepository.save(category);
 

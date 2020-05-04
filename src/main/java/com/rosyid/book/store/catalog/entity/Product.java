@@ -3,6 +3,7 @@ package com.rosyid.book.store.catalog.entity;
 import com.rosyid.book.store.catalog.persistence.CatalogEntityPersistence;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
@@ -11,8 +12,9 @@ import javax.persistence.*;
 @Setter
 @Getter
 @Entity
+//@DynamicUpdate
 @Table(name = "products")
-@Where(clause = "status='ACTIVE'")
+@Where(clause = "status='ACTIVE' AND visibility = 'VISIBLE'")
 public class Product extends CatalogEntityPersistence
 {
     private static final long serialVersionUID = 1L;
@@ -29,11 +31,11 @@ public class Product extends CatalogEntityPersistence
     private Category ProductCategoryId;
 
     @Enumerated(EnumType.STRING)
-    private ProductStatus productStatus;
+    private EnumProductStatus productStatus;
+
+    @Enumerated(EnumType.STRING)
+    private EnumVisibility visibility;
 
 
-    public enum ProductStatus {
-        FOR_SELL, OUT_OF_STOCK, HIDDEN
 
-    }
 }

@@ -4,6 +4,7 @@ import com.rosyid.book.store.account.entity.EnumRole;
 import com.rosyid.book.store.account.entity.Role;
 import com.rosyid.book.store.account.repository.RoleRepository;
 import com.rosyid.book.store.catalog.entity.Category;
+import com.rosyid.book.store.catalog.entity.EnumVisibility;
 import com.rosyid.book.store.catalog.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -36,8 +37,8 @@ public class BookStoreApplication {
 	@PostConstruct
 	public void initCategory(){
 		List<Category> categories = Stream.of(
-				new Category("Komputer", "komputer", null, Category.CategoryStatus.SHOWED, null),
-				new Category("Matematika", "matematika", null, Category.CategoryStatus.SHOWED, null)
+				new Category("Komputer", "komputer", null, EnumVisibility.VISIBLE, null),
+				new Category("Matematika", "matematika", null, EnumVisibility.VISIBLE, null)
 		).collect(Collectors.toList() );
 		categoryRepository.saveAll(categories);
 	}

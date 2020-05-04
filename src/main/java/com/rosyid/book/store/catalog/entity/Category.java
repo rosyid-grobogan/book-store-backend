@@ -16,7 +16,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "categories")
-@Where(clause = "status = 'ACTIVE' ")
+@Where(clause = "status = 'ACTIVE' AND visibility = 'VISIBLE'")
 public class Category extends CatalogEntityPersistence
 {
     private static final long serialVersionUID = 1L;
@@ -28,14 +28,11 @@ public class Category extends CatalogEntityPersistence
     private Integer parentId;
 
     @Enumerated(EnumType.STRING)
-    private CategoryStatus categoryStatus;
+    private EnumVisibility visibility;
 
     @Where(clause = "status = 'ACTIVE'")
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ProductCategoryId", fetch = FetchType.LAZY)
     private Set<Product> products;
 
-    public enum CategoryStatus
-    {
-        SHOWED, HIDDEN
-    }
+
 }
