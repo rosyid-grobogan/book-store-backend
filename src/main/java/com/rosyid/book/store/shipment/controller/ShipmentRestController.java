@@ -19,7 +19,7 @@ import java.util.List;
 
 @Api
 @RestController
-@RequestMapping("/api/rest/shipment")
+@RequestMapping("/api/v1/user/shipments")
 //@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class ShipmentRestController
 {
