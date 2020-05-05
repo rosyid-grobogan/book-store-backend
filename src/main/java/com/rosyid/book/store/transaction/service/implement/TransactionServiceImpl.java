@@ -1,6 +1,7 @@
 package com.rosyid.book.store.transaction.service.implement;
 
 import static com.rosyid.book.store.transaction.util.TransactionModelMapper.constructModel;
+import static com.rosyid.book.store.transaction.util.PageRequestUtil.constructPageRequest;
 
 import com.rosyid.book.store.account.entity.User;
 import com.rosyid.book.store.account.repository.UserRepository;
@@ -15,6 +16,7 @@ import com.rosyid.book.store.transaction.repository.TransactionRepository;
 import com.rosyid.book.store.transaction.service.TransactionService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -141,4 +143,21 @@ public class TransactionServiceImpl implements TransactionService {
         return constructModel(transactionRepository.findByUserId(userId));
     }
 
+
+    @Override
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    public Page<TransactionResponse> findByUserOrInvoice(String fullName, String invoiceNumber, Integer page, Integer perPage) {
+        if (StringUtils.isNotBlank(fullName))
+            return transactionRepository.findByUserFullNameContainsIgnoreCase(fullName, constructPageRequest(page, perPage)).map(data -> {
+                return constructModel(data);
+            });
+        else if (StringUtils.isNotBlank(invoiceNumber))
+            return transactionRepository.findByInvoiceNumberContainsIgnoreCase(invoiceNumber, constructPageRequest(page, perPage)).map(data -> {
+                return constructModel(data);
+            });
+        else
+            return transactionRepository.findAll(constructPageRequest(page, perPage)).map(data -> {
+                return constructModel(data);
+            });
+    }
 }

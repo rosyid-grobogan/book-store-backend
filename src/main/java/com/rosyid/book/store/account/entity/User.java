@@ -25,6 +25,7 @@ public class User extends AccountEntityPersistence
     private String username;
     private String email;
     private String password;
+    private String fullName;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",

@@ -12,4 +12,5 @@ public class UserResponse extends CatalogModelPersistence
 {
     private String username;
     private String email;
+    private String fullName;
 }
