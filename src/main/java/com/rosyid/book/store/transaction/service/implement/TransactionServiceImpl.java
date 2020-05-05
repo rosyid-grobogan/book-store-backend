@@ -23,6 +23,9 @@ import org.springframework.web.client.HttpServerErrorException;
 
 import java.util.*;
 
+/**
+ * Transaction Workflow
+ */
 @Service
 public class TransactionServiceImpl implements TransactionService {
 
@@ -45,7 +48,8 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public TransactionResponse save(TransactionRequest request) {
+    public TransactionResponse save(TransactionRequest request)
+    {
         // validate user
         User user = userRepository.findById(request.getUserId()).orElse(null);
         if (user == null)
@@ -82,6 +86,7 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setTransactionDetails(transactionDetails);
         return constructModel(transaction);
     }
+
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)

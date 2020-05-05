@@ -1,22 +1,28 @@
 package com.rosyid.book.store.transaction.payload.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.rosyid.book.store.transaction.entity.EnumTransactionStatus;
 import lombok.Data;
+
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 /**
  * DTO
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class TransactionRequestUpdate
+public class PaymentRequest
 {
-    @NotNull
-    private Long transactionId;
 
     @NotNull
-    private EnumTransactionStatus transactionStatus;
+    private String invoiceNumber;
 
+    @NotNull
     private String receiptImageUrl;
+
+    @NotNull
+    private String paymentMethod;
+
+    @NotNull
+    private Double price;
 }

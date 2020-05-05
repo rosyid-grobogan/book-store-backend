@@ -11,6 +11,9 @@ import lombok.Setter;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * DTO
+ */
 @Getter
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)

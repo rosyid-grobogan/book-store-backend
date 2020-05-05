@@ -8,7 +8,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 
-
+/**
+ * DAO of CartDetail entity
+ */
 public interface CartDetailRepository extends JpaRepository<CartDetail, Long>
 {
 
