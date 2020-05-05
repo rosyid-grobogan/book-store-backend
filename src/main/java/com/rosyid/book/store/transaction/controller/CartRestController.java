@@ -42,7 +42,8 @@ public class CartRestController
     }
 
     @GetMapping("/findAll")
-    public List<CartResponse> findAll() {
+    public List<CartResponse> findAll()
+    {
         return cartService.findAll();
     }
 
