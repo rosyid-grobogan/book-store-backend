@@ -18,4 +18,7 @@ public class ShipmentRequest
 
     @NotNull
     private EnumCourier courier;
+
+    @NotNull
+    private String address;
 }
