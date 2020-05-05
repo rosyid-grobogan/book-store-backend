@@ -1,4 +1,4 @@
-package com.rosyid.book.store.globalconfig;
+package com.rosyid.book.store.configglobal;
 
 import com.rosyid.book.store.account.jwt.AuthEntryPoint;
 import com.rosyid.book.store.account.jwt.AuthTokenFilter;

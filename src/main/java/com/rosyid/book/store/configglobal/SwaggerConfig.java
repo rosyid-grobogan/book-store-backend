@@ -1,4 +1,4 @@
-package com.rosyid.book.store.globalconfig;
+package com.rosyid.book.store.configglobal;
 
 import static springfox.documentation.builders.PathSelectors.regex;
 
