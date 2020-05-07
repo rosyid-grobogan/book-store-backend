@@ -1,4 +1,4 @@
-package com.rosyid.book.store.catalog.controller;
+package com.rosyid.book.store.account.controller;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
