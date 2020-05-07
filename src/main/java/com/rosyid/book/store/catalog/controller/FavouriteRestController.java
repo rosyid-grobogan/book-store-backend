@@ -8,6 +8,7 @@ import io.swagger.annotations.Api;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +25,8 @@ public class FavouriteRestController
     @Autowired
     private FavouriteService favouriteService;
 
+
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping()
     public List<FavouriteResponse> getAll() {
         return favouriteService.findAll();
@@ -37,6 +40,7 @@ public class FavouriteRestController
      * @return
      * @throws IOException
      */
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @PostMapping()
     public FavouriteResponse createNew(
             @RequestBody @Valid FavouriteRequest request,
@@ -51,6 +55,7 @@ public class FavouriteRestController
             return favouriteService.create(favouriteBookModel);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @PostMapping("/{id}")
     public FavouriteResponse updateData(
             @PathVariable("id") Long id,
@@ -66,17 +71,19 @@ public class FavouriteRestController
             return favouriteService.update(favouriteModel);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @DeleteMapping("/{detailId}")
     public FavouriteResponse deleteData(@PathVariable("detailId") final Long detailId) {
         return favouriteService.deleteByFavouriteDetailId(detailId);
     }
 
-
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("/{id}")
     public FavouriteResponse getSingle(@PathVariable("id") final Long id) {
         return favouriteService.findById(id);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("/findByUserId/{userId}")
     public FavouriteResponse findByUserId(@PathVariable("userId") final Long userId) {
         return favouriteService.findByUserId(userId);

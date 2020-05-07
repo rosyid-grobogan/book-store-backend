@@ -12,6 +12,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,7 +31,7 @@ public class ProductRestController
     private ProductService productService;
 
 
-
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping()
     public List<ProductResponse> getAll()
     {
@@ -45,6 +46,7 @@ public class ProductRestController
      * @return
      * @throws IOException
      */
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping()
     public ProductResponse createNew(@RequestBody @Valid ProductRequest request,
                                          BindingResult result,
@@ -69,6 +71,7 @@ public class ProductRestController
      * @param id
      * @return
      */
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}")
     public ProductResponse getSingle(@PathVariable("id") final Long id)
     {
@@ -84,6 +87,7 @@ public class ProductRestController
      * @return
      * @throws IOException
      */
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ProductResponse updateData(@PathVariable("id") Long id,
             @RequestBody @Valid ProductRequestUpdate requestUpdate,
@@ -108,6 +112,7 @@ public class ProductRestController
      * @param id
      * @return
      */
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ProductResponse deleteData(@PathVariable("id") final Long id)
     {
@@ -115,7 +120,7 @@ public class ProductRestController
     }
 
 
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/{id}/upload-image")
     public ProductResponse uploadImage(@PathVariable("id") final Long id, @RequestPart(value = "file") MultipartFile file)
     {
