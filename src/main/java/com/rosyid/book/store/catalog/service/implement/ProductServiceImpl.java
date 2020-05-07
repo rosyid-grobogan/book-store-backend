@@ -8,6 +8,7 @@ import com.rosyid.book.store.catalog.persistence.CatalogEntityPersistence;
 import com.rosyid.book.store.catalog.repository.CategoryRepository;
 import com.rosyid.book.store.catalog.repository.ProductRepository;
 import com.rosyid.book.store.catalog.service.ProductService;
+import com.rosyid.book.store.storage.service.MinioService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,9 +16,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Find ALl Product
@@ -31,7 +34,8 @@ public class ProductServiceImpl implements ProductService
     private ProductRepository productRepository;
     @Autowired
     private CategoryRepository categoryRepository;
-
+    @Autowired
+    private MinioService minioService;
 
     /**
      * Find All Product
@@ -90,6 +94,29 @@ public class ProductServiceImpl implements ProductService
     }
 
 
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public ProductResponse uploadImage(Long id, MultipartFile file) {
+        ProductResponse entity = new ProductResponse();
+        Product product = productRepository.findById(id).orElse(null);
+        if (product == null)
+            throw new HttpServerErrorException(HttpStatus.BAD_REQUEST, "Product with id: " + id + " not found");
+
+        // upload image
+        try {
+            String imageUrl = minioService.uploadImage(UUID.randomUUID().toString(),
+                    file.getInputStream(), file.getContentType());
+            product.setImageUrl(imageUrl);
+            product = productRepository.save(product);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new HttpServerErrorException(HttpStatus.BAD_REQUEST, "Problem upload file");
+        }
+        BeanUtils.copyProperties(product, entity);
+       return entity;
+    }
+
     /**
      * Save or Update
      * @param entity
@@ -119,17 +146,19 @@ public class ProductServiceImpl implements ProductService
                 product.setProductCategoryId(category);
             }
 
-            //BeanUtils.copyProperties(entity, product);
-            product.setName(entity.getName());
-            product.setSlug(entity.getSlug());
-            product.setPhotoId(entity.getPhotoId());
-            product.setPrice(entity.getPrice());
-            product.setQuantity(entity.getQuantity());
-            product.setDescription(entity.getDescription());
-            product.setProductStatus(entity.getProductStatus());
-            product.setVisibility(entity.getVisibility());
+                //BeanUtils.copyProperties(entity, product);
+                product.setName(entity.getName());
+                product.setSlug(entity.getSlug());
+//            product.setPhotoId(entity.getPhotoId());
+                product.setImageUrl(entity.getImageUrl());
+                product.setPrice(entity.getPrice());
+                product.setQuantity(entity.getQuantity());
+                product.setDescription(entity.getDescription());
+                product.setProductStatus(entity.getProductStatus());
+                product.setVisibility(entity.getVisibility());
 
-            product = productRepository.save(product);
+                product = productRepository.save(product);
+
         }
         else {
             // Create

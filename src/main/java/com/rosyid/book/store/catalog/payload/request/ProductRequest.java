@@ -16,7 +16,8 @@ public class ProductRequest
 {
     private String name;
     private String slug;
-    private Long photoId;
+//    private Long photoId;
+    private String imageUrl;
     private Double price;
     private Integer quantity;
     private String description;

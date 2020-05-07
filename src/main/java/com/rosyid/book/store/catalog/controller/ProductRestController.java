@@ -8,10 +8,13 @@ import com.rosyid.book.store.catalog.service.ProductService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -29,7 +32,7 @@ public class ProductRestController
 
 
     @GetMapping()
-    public List<ProductResponse> getAllProducts()
+    public List<ProductResponse> getAll()
     {
         return productService.findAll();
     }
@@ -42,9 +45,9 @@ public class ProductRestController
      * @return
      * @throws IOException
      */
-//    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+
     @PostMapping()
-    public ProductResponse createProduct(@RequestBody @Valid ProductRequest request,
+    public ProductResponse createNew(@RequestBody @Valid ProductRequest request,
                                          BindingResult result,
                                          HttpServletResponse response
                                          ) throws IOException
@@ -56,6 +59,7 @@ public class ProductRestController
             return productResponse;
         }else {
             BeanUtils.copyProperties(request, productResponse);
+
             return productService.saveOrUpdate(productResponse);
         }
     }
@@ -67,7 +71,7 @@ public class ProductRestController
      * @return
      */
     @GetMapping("/{id}")
-    public ProductResponse getProduct(@PathVariable("id") final Long id)
+    public ProductResponse getSingle(@PathVariable("id") final Long id)
     {
         return productService.findById(id);
     }
@@ -81,8 +85,8 @@ public class ProductRestController
      * @return
      * @throws IOException
      */
-    @PutMapping(value = "/{id}")
-    public ProductResponse updateProduct(@PathVariable("id") Long id,
+    @PutMapping("/{id}")
+    public ProductResponse updateData(@PathVariable("id") Long id,
             @RequestBody @Valid ProductRequestUpdate requestUpdate,
                                          BindingResult result,
                                          HttpServletResponse response) throws IOException
@@ -106,9 +110,17 @@ public class ProductRestController
      * @return
      */
     @DeleteMapping("/{id}")
-    public ProductResponse deleteProduct(@PathVariable("id") final Long id)
+    public ProductResponse deleteData(@PathVariable("id") final Long id)
     {
         return productService.deleteById(id);
     }
 
+
+
+    @PostMapping("/{id}/upload-image")
+    public ProductResponse uploadImage(@PathVariable("id") final Long id, @RequestPart(value = "file") MultipartFile file)
+    {
+
+        return productService.uploadImage(id, file);
+    }
 }

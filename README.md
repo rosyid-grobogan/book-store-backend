@@ -34,7 +34,7 @@
 Content-Type : [{"key":"Content-Type","value":"application/json","description":"","type":"text","enabled":true}]
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb3N5aWQiLCJpYXQiOjE1ODgxMjExMzIsImV4cCI6MTU4ODEyMTEzN30.foHbKUF5Edw3eCfB1wsmGIz1t-GGpG2zU2LaBZJ9HGa0BoXnRqgmQpvkyzTISB7nZLbHREcvcqOjtEijjW-VoQ
 
-## REST APIs
+## Resources Naming
 |      | API Name           | HTTP Method | Path                  | Status Code    | Desciption                        |
 | ---- | ------------------ | ----------- | --------------------- | -------------- | --------------------------------- |
 | 1    | GET Products       | GET         | /api/v1/products      | 200 OK         | All product resources are fetched |

@@ -24,7 +24,9 @@ public class Product extends CatalogEntityPersistence
 
     private String name;
     private String slug;
-    private Long photoId;
+    //private Long photoId;
+    @Column(columnDefinition = "text")
+    private String imageUrl;
     private Double price;
     private Integer quantity;
     @Column(columnDefinition = "text")
