@@ -34,7 +34,7 @@ public class CategoryRestController
      *
      * @return
      */
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping()
     public List<CategoryResponse> getAll()
     {
@@ -51,7 +51,7 @@ public class CategoryRestController
      * @return
      * @throws IOException
      */
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping()
     public CategoryResponse createNew(
             @Valid @RequestBody CategoryRequest request,
@@ -77,7 +77,7 @@ public class CategoryRestController
      * @param id
      * @return
      */
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}")
     public CategoryResponse getSingle(@PathVariable("id") final Long id)
     {
@@ -94,7 +94,7 @@ public class CategoryRestController
      * @return
      * @throws IOException
      */
-//        @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public CategoryResponse updateData(
             @PathVariable("id") Long id,
@@ -120,7 +120,7 @@ public class CategoryRestController
      * @param id
      * @return
      */
-//        @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public CategoryResponse deleteData(@PathVariable("id") final Long id) {
 
@@ -134,7 +134,7 @@ public class CategoryRestController
      * @param name
      * @return
      */
-    //@PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/byName/{name}")
     public CategoryGetByNameResponse getByName(@PathVariable("name") final String name)
     {
