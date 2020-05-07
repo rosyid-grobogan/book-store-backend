@@ -5,6 +5,7 @@ import com.rosyid.book.store.catalog.payload.request.FavouriteRequest;
 import com.rosyid.book.store.catalog.payload.response.FavouriteResponse;
 import com.rosyid.book.store.catalog.service.FavouriteService;
 import io.swagger.annotations.Api;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
@@ -23,6 +24,10 @@ public class FavouriteRestController
     @Autowired
     private FavouriteService favouriteService;
 
+    @GetMapping()
+    public List<FavouriteResponse> getAll() {
+        return favouriteService.findAll();
+    }
 
     /**
      * Save or Update
@@ -32,29 +37,43 @@ public class FavouriteRestController
      * @return
      * @throws IOException
      */
-    @PostMapping("/saveOrUpdate")
-    public FavouriteResponse saveOrUpdate(@RequestBody @Valid FavouriteRequest request, BindingResult result,
-                                          HttpServletResponse response) throws IOException {
+    @PostMapping()
+    public FavouriteResponse createNew(
+            @RequestBody @Valid FavouriteRequest request,
+            BindingResult result,
+            HttpServletResponse response) throws IOException {
         FavouriteResponse favouriteBookModel = new FavouriteResponse();
         if (result.hasErrors()) {
             response.sendError(HttpStatus.BAD_REQUEST.value(), result.getAllErrors().toString());
             return favouriteBookModel;
         } else
-            return favouriteService.saveOrUpdate(request);
+            BeanUtils.copyProperties(request, favouriteBookModel);
+            return favouriteService.create(favouriteBookModel);
     }
 
-    @DeleteMapping("/deleteByFavouriteBookDetailId/{detailId}")
-    public FavouriteResponse delete(@PathVariable("detailId") final Long detailId) {
+    @PostMapping("/{id}")
+    public FavouriteResponse updateData(
+            @PathVariable("id") Long id,
+            @RequestBody @Valid FavouriteRequest request,
+            BindingResult result,
+            HttpServletResponse response) throws IOException {
+        FavouriteResponse favouriteModel = new FavouriteResponse();
+        if (result.hasErrors()) {
+            response.sendError(HttpStatus.BAD_REQUEST.value(), result.getAllErrors().toString());
+            return favouriteModel;
+        } else
+            BeanUtils.copyProperties(request, favouriteModel);
+            return favouriteService.update(favouriteModel);
+    }
+
+    @DeleteMapping("/{detailId}")
+    public FavouriteResponse deleteData(@PathVariable("detailId") final Long detailId) {
         return favouriteService.deleteByFavouriteDetailId(detailId);
     }
 
-    @GetMapping("/findAll")
-    public List<FavouriteResponse> findAll() {
-        return favouriteService.findAll();
-    }
 
-    @GetMapping("/findById/{id}")
-    public FavouriteResponse findById(@PathVariable("id") final Long id) {
+    @GetMapping("/{id}")
+    public FavouriteResponse getSingle(@PathVariable("id") final Long id) {
         return favouriteService.findById(id);
     }
 

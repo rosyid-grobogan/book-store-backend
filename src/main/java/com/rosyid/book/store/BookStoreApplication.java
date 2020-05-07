@@ -40,14 +40,14 @@ public class BookStoreApplication {
 		roleRepository.saveAll(role);
 	}
 
-	@PostConstruct
-	public void initCategory(){
-		List<Category> categories = Stream.of(
-				new Category("Komputer", "komputer", null, EnumVisibility.VISIBLE, null),
-				new Category("Matematika", "matematika", null, EnumVisibility.VISIBLE, null)
-		).collect(Collectors.toList() );
-		categoryRepository.saveAll(categories);
-	}
+//	@PostConstruct
+//	public void initCategory(){
+//		List<Category> categories = Stream.of(
+//				new Category("Komputer", "komputer", null, EnumVisibility.VISIBLE, null),
+//				new Category("Novel", "novel", null, EnumVisibility.VISIBLE, null)
+//		).collect(Collectors.toList() );
+//		categoryRepository.saveAll(categories);
+//	}
 
 //	@PostConstruct
 //	public void initProduct(){

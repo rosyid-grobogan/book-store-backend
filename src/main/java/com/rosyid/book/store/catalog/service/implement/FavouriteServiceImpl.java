@@ -46,7 +46,46 @@ public class FavouriteServiceImpl implements FavouriteService
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public FavouriteResponse saveOrUpdate(FavouriteRequest request) {
+    public FavouriteResponse create(FavouriteRequest request)
+    {
+        // validate user
+        User user = userRepository.findById(request.getUserId()).orElse(null);
+        if (user == null)
+            throw new HttpServerErrorException(HttpStatus.BAD_REQUEST, "User with id: " + request.getUserId() + " not found");
+
+        Favourite favourite = favouriteRepository.findByUserId(user.getId());
+
+        Set<FavouriteDetail> favouriteBookDetails = new HashSet<>();
+        // initialize
+        if (favourite == null) {
+            favourite = new Favourite();
+            favourite.setUser(user);
+            favourite = favouriteRepository.save(favourite);
+
+            // validate book
+            Product product = productRepository.findById(request.getProductId()).orElse(null);
+            if (product == null)
+                throw new HttpServerErrorException(HttpStatus.BAD_REQUEST, "Book with id: " + request.getProductId() + " not found");
+
+            // detail
+            favouriteBookDetails.add(saveFavouriteDetail(favourite, product));
+        } else {
+            // update
+            Product product = productRepository.findById(request.getProductId()).orElse(null);
+            if (product == null)
+                throw new HttpServerErrorException(HttpStatus.BAD_REQUEST, "Book with id: " + request.getProductId() + " not found");
+
+            List<FavouriteDetail> currentFavouriteBookDetails = favouriteDetailRepository.findByUserIdAndBookId(user.getId(), product.getId());
+            if (currentFavouriteBookDetails == null || currentFavouriteBookDetails.size() == 0)
+                favouriteBookDetails.add(saveFavouriteDetail(favourite, product));
+        }
+        favourite.setFavouriteDetails(favouriteBookDetails);
+        return constructModel(favourite);
+    }
+
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public FavouriteResponse update(FavouriteRequest request) {
         // validate user
         User user = userRepository.findById(request.getUserId()).orElse(null);
         if (user == null)
@@ -108,9 +147,20 @@ public class FavouriteServiceImpl implements FavouriteService
     }
 
     @Override
-    public FavouriteResponse saveOrUpdate(FavouriteResponse entity) {
+    public FavouriteResponse create(FavouriteResponse entity) {
         return null;
     }
+
+    @Override
+    public FavouriteResponse update(FavouriteResponse entity) {
+        return null;
+    }
+
+
+//    @Override
+//    public FavouriteResponse saveOrUpdate(FavouriteResponse entity) {
+//        return null;
+//    }
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)

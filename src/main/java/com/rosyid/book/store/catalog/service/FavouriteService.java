@@ -7,7 +7,9 @@ import com.rosyid.book.store.catalog.persistence.CatalogServicePersistence;
 
 public interface FavouriteService extends CatalogServicePersistence<FavouriteResponse, Long>
 {
-    FavouriteResponse saveOrUpdate(FavouriteRequest request);
+//    FavouriteResponse saveOrUpdate(FavouriteRequest request);
+    FavouriteResponse create(FavouriteRequest request);
+    FavouriteResponse update(FavouriteRequest request);
 
     FavouriteResponse findByUserId(Long userId);
 

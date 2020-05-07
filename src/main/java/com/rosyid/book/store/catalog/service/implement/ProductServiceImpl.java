@@ -124,7 +124,7 @@ public class ProductServiceImpl implements ProductService
      */
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public ProductResponse saveOrUpdate(ProductResponse entity)
+    public ProductResponse create(ProductResponse entity)
     {
         Product product;
         Category category;
@@ -187,7 +187,70 @@ public class ProductServiceImpl implements ProductService
 
     }
 
+    @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public ProductResponse update(ProductResponse entity)
+    {
+        Product product;
+        Category category;
 
+        // Get Id
+        if (entity.getId() != null)
+        {
+            product = productRepository.findById( entity.getId() ).orElse(null);
+
+            if ( product == null )
+            {
+                throw new HttpServerErrorException(HttpStatus.BAD_REQUEST,
+                        "Product with id: "+ entity.getId() +" not found"
+                );
+            }
+            if (!product.getProductCategoryId().getId().equals(entity.getCategoryId()))
+            {
+                category = categoryRepository.findById(entity.getCategoryId()).orElse(null);
+                product.setProductCategoryId(category);
+            }
+
+            //BeanUtils.copyProperties(entity, product);
+            product.setName(entity.getName());
+            product.setSlug(entity.getSlug());
+//            product.setPhotoId(entity.getPhotoId());
+            product.setImageUrl(entity.getImageUrl());
+            product.setPrice(entity.getPrice());
+            product.setQuantity(entity.getQuantity());
+            product.setDescription(entity.getDescription());
+            product.setProductStatus(entity.getProductStatus());
+            product.setVisibility(entity.getVisibility());
+
+            product = productRepository.save(product);
+
+        }
+        else {
+            // Create
+            category = categoryRepository.findById(entity.getCategoryId()).orElse( null);
+            if (category == null)
+            {
+                throw new HttpServerErrorException(HttpStatus.BAD_REQUEST,
+                        "Product with id: "+entity.getId() +" not found"
+                );
+            }
+
+            product = new Product();
+            product.setProductCategoryId(category);
+            BeanUtils.copyProperties(entity, product);
+            product = productRepository.save(product);
+
+        }
+
+        CategoryResponse categoryResponse = new CategoryResponse();
+        BeanUtils.copyProperties(product.getProductCategoryId(), categoryResponse);
+        BeanUtils.copyProperties(product, entity);
+        entity.setCategoryId(product.getProductCategoryId().getId());
+        entity.setProductCategoryId(categoryResponse);
+
+        return entity;
+
+    }
     /**
      *
      * @param entity

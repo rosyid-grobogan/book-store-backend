@@ -6,7 +6,8 @@ public interface CatalogServicePersistence<T, ID>
 {
 
     List<T> findAll();
-    T saveOrUpdate(T entity);
+    T create(T entity);
+    T update(T entity);
     T findById(ID id);
     T delete(T entity);
     T deleteById(ID id);

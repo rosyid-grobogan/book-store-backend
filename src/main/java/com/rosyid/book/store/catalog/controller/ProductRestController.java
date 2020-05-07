@@ -45,7 +45,6 @@ public class ProductRestController
      * @return
      * @throws IOException
      */
-
     @PostMapping()
     public ProductResponse createNew(@RequestBody @Valid ProductRequest request,
                                          BindingResult result,
@@ -60,7 +59,7 @@ public class ProductRestController
         }else {
             BeanUtils.copyProperties(request, productResponse);
 
-            return productService.saveOrUpdate(productResponse);
+            return productService.create(productResponse);
         }
     }
 
@@ -99,7 +98,7 @@ public class ProductRestController
             return productResponse;
         }else {
             BeanUtils.copyProperties(requestUpdate, productResponse);
-            return productService.saveOrUpdate(productResponse);
+            return productService.update(productResponse);
         }
     }
 
@@ -120,7 +119,6 @@ public class ProductRestController
     @PostMapping("/{id}/upload-image")
     public ProductResponse uploadImage(@PathVariable("id") final Long id, @RequestPart(value = "file") MultipartFile file)
     {
-
         return productService.uploadImage(id, file);
     }
 }

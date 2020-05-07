@@ -49,7 +49,7 @@ public class CategoryServiceImpl implements CategoryService
      */
 
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public CategoryResponse saveOrUpdate(CategoryResponse entity)
+    public CategoryResponse create(CategoryResponse entity)
     {
 
         Category category;
@@ -93,6 +93,49 @@ public class CategoryServiceImpl implements CategoryService
         return entity;
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public CategoryResponse update(CategoryResponse entity)
+    {
+
+        Category category;
+
+        // logic create - update
+        if ( entity.getId() != null )
+        {
+            category = categoryRepository.findById( entity.getId() ).orElse(null );
+
+            if ( category == null )
+            {
+                throw new HttpServerErrorException(HttpStatus.BAD_REQUEST,
+                        "Category with id: " + entity.getId() + "not found");
+            }
+
+            // update dengan data baru
+            category.setName( entity.getName() );
+            category.setSlug( entity.getSlug() );
+            category.setParentId( entity.getParentId() );
+            category.setVisibility( entity.getVisibility() );
+            category.setUpdatedAt( entity.getUpdatedAt());
+            category.setUpdatedBy( "user");
+
+            categoryRepository.save( category );
+
+            return entity;
+
+        } else {
+            category = new Category();
+            category.setName( entity.getName() );
+            category.setSlug( entity.getSlug() );
+            category.setParentId( entity.getParentId() );
+            category.setVisibility( entity.getVisibility() );
+
+            categoryRepository.save(category);
+
+            BeanUtils.copyProperties( category, entity);
+        }
+
+        return entity;
+    }
 
     /**
      * Delete

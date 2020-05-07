@@ -53,7 +53,7 @@ public class CategoryRestController
      */
 //    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping()
-    public CategoryResponse createCategory(
+    public CategoryResponse createNew(
             @Valid @RequestBody CategoryRequest request,
             BindingResult result,
             HttpServletResponse response) throws IOException
@@ -65,7 +65,7 @@ public class CategoryRestController
             return categoryModel;
         } else {
             BeanUtils.copyProperties(request, categoryModel);
-            return categoryService.saveOrUpdate(categoryModel);
+            return categoryService.create(categoryModel);
         }
 
     }
@@ -79,24 +79,11 @@ public class CategoryRestController
      */
 //    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}")
-    public CategoryResponse getById(@PathVariable("id") final Long id)
+    public CategoryResponse getSingle(@PathVariable("id") final Long id)
     {
         return categoryService.findById(id);
     }
 
-    /**
-     * Find By Name
-     * @param name
-     * @return
-     */
-    //@PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/byName/{name}")
-    public CategoryGetByNameResponse getByName(@PathVariable("name") final String name)
-    {
-        CategoryGetByNameResponse nameResponse = new CategoryGetByNameResponse();
-
-        return categoryService.findByName(name);
-    }
 
 
     /**
@@ -108,9 +95,9 @@ public class CategoryRestController
      * @throws IOException
      */
 //        @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/{id}")
-    public CategoryResponse update(
-
+    @PutMapping("/{id}")
+    public CategoryResponse updateData(
+            @PathVariable("id") Long id,
            @RequestBody @Valid CategoryRequestUpdate request,
             BindingResult result,
             HttpServletResponse response) throws IOException
@@ -122,7 +109,7 @@ public class CategoryRestController
             return categoryModel;
         } else {
             BeanUtils.copyProperties(request, categoryModel);
-            return categoryService.saveOrUpdate(categoryModel);
+            return categoryService.update(categoryModel);
         }
 
     }
@@ -135,10 +122,24 @@ public class CategoryRestController
      */
 //        @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
-    public CategoryResponse deleteById(@PathVariable("id") final Long id) {
+    public CategoryResponse deleteData(@PathVariable("id") final Long id) {
 
         return categoryService.deleteById(id);
     }
 
 
+    /**
+     * CHALLANGE
+     * Find By Name
+     * @param name
+     * @return
+     */
+    //@PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/byName/{name}")
+    public CategoryGetByNameResponse getByName(@PathVariable("name") final String name)
+    {
+        CategoryGetByNameResponse nameResponse = new CategoryGetByNameResponse();
+
+        return categoryService.findByName(name);
+    }
 }
