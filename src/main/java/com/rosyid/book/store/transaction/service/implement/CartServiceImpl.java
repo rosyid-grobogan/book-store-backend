@@ -16,6 +16,8 @@ import com.rosyid.book.store.transaction.repository.CartRepository;
 import com.rosyid.book.store.transaction.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,9 +52,18 @@ public class CartServiceImpl implements CartService
     public CartResponse saveOrUpdate(CartRequest request)
     {
         // validate user
+        // Only current User
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String  currentUserName = authentication.getName();
+        Long userId = userRepository.findIdByUsername(currentUserName);
+
         User user = userRepository.findById(request.getUserId()).orElse(null);
+
         if (user == null)
             throw new HttpServerErrorException(HttpStatus.BAD_REQUEST, "User with id: " + request.getUserId() + " not found");
+        // not matched
+        if (request.getUserId() != userId)
+            throw new HttpServerErrorException(HttpStatus.BAD_REQUEST, "User with id: " + userId + " not matched");
 
         Cart cart = cartRepository.findByUserId(user.getId());
         Set<CartDetail> cartDetails = new HashSet<>();
