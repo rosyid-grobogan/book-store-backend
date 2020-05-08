@@ -1,12 +1,17 @@
 package com.rosyid.book.store.catalog.util;
 
+import com.rosyid.book.store.account.entity.User;
 import com.rosyid.book.store.account.payload.response.UserResponse;
+import com.rosyid.book.store.account.repository.UserRepository;
 import com.rosyid.book.store.catalog.entity.Favourite;
 import com.rosyid.book.store.catalog.payload.request.FavouriteRequest;
 import com.rosyid.book.store.catalog.payload.response.CategoryResponse;
 import com.rosyid.book.store.catalog.payload.response.FavouriteResponse;
 import com.rosyid.book.store.catalog.payload.response.ProductResponse;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,9 +58,10 @@ public class FavouriteModelMapper
     }
 
     public static FavouriteResponse construcModelForRequest(FavouriteRequest request) {
+
         FavouriteResponse favouriteBookModel = new FavouriteResponse();
         FavouriteResponse.DetailModel detail = getFavouriteDetailModel(request.getProductId());
-        favouriteBookModel.setUserResponse( getUserModel(request.getUserId()));
+//        favouriteBookModel.setUserResponse( getUserModel(request.getUserId()));
         favouriteBookModel.setDetails(Arrays.asList(detail));
         return favouriteBookModel;
     }

@@ -10,5 +10,5 @@ import java.util.List;
 public interface FavouriteDetailRepository extends JpaRepository<FavouriteDetail, Long>
 {
     @Query("FROM FavouriteDetail detail WHERE detail.favourite.user.id = ?1 AND detail.product.id = ?2")
-    List<FavouriteDetail> findByUserIdAndBookId(Long userId, Long bookId);
+    List<FavouriteDetail> findByUserIdAndProductId(Long userId, Long productId);
 }
