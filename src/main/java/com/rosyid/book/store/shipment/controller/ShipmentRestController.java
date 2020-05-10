@@ -27,6 +27,7 @@ public class ShipmentRestController
     @Autowired
     private ShipmentService shipmentService;
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @PostMapping("/create")
     public ShipmentResponse create(@RequestBody @Valid ShipmentRequest request,
                                    BindingResult result,
@@ -40,6 +41,7 @@ public class ShipmentRestController
             return shipmentService.create(request);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @PostMapping("/update")
     public ShipmentResponse update(@RequestBody @Valid ShipmentRequestUpdate request,
                                    BindingResult result,
@@ -53,18 +55,21 @@ public class ShipmentRestController
             return shipmentService.update(request);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("/findAll")
     public List<ShipmentResponse> findAll()
     {
         return shipmentService.findAll();
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("/findById/{id}")
     public ShipmentResponse findById(@PathVariable("id") final Long id)
     {
         return shipmentService.findById(id);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @GetMapping("/findByUserId/{userId}")
     public List<ShipmentResponse> findByUserId(@PathVariable("userId") final Long userId)
     {
