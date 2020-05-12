@@ -1,4 +1,12 @@
-# Book Store Project - Backend
+# Book Store Project - Backend with Microservice Style
+
+## Microservice Style
+### Struktur Package
+- account: user, authorization and authentication
+- catalog: product, favourite and category
+- shipment: shipment
+- transaction: cart, transaction, report
+- configglobal: swagger, minio, pagination, websecurity
 
 ## User
 
@@ -22,16 +30,10 @@
 4. CRUD Daftar Pembelian
 5. Status Pendapatan
 
-## Category
-/api/v1/admin/categories
-- save
-- update
-- deleteById/{id}
-- findAll
-- findById/{id}
 
 ## HTTP Header
 Content-Type : [{"key":"Content-Type","value":"application/json","description":"","type":"text","enabled":true}]
+
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyb3N5aWQiLCJpYXQiOjE1ODgxMjExMzIsImV4cCI6MTU4ODEyMTEzN30.foHbKUF5Edw3eCfB1wsmGIz1t-GGpG2zU2LaBZJ9HGa0BoXnRqgmQpvkyzTISB7nZLbHREcvcqOjtEijjW-VoQ
 
 ## Resources Naming
@@ -80,7 +82,35 @@ Create new product
     "productVisibility": "VISIBLE"
 }
 ```
+productVisibility": "VISIBLE" merupakan fitur untuk aktif dan menon-aktikan product.
+Karena terkadang pengguna tidak ingin menghapus tapi hanya menon-aktifkan product.
+
 Value of productStatus:
 - FOR_SELL : Button is actived and it's available for selling.
 - OUT_OF_STOCK : Disable button.
 - HIDDEN : Product price is not visible.
+
+
+### Langkah Persiapan
+- Download / Clone melalui GitHub
+- Buat Database
+- Sesuaikan konfigurasi Databasenya: Edit file application.properties
+
+### Buat Akun
+```json
+{
+  "username": "rosyidgrobogan"
+  "email": "rosyid@bookstore.com",
+  "fullName": "Rosyid Grobogan",
+  "password": "rahasia",
+  "role": [
+    "ADMIN", "USER"
+  ]
+}
+```
+Key "role" bernilai array, misal
+- ["USER]
+- ["ADMIN", "USER"]
+
+### Dapatkan Token 
+- Silakan SigIn dengan username dan password yang sudah didaftarkan
