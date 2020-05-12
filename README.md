@@ -1,8 +1,8 @@
-# Book Store Project - Backend with Microservice Style
+# Book Store Project - Backend with Microservices Style
 
 Demo:  https://bookstore-restapi.herokuapp.com/swagger-ui.html
 
-## Microservice Style
+## Microservices Style
 ### Struktur Package
 - account: user, authorization and authentication
 - catalog: product, favourite and category
