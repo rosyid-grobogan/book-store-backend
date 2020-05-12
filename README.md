@@ -101,7 +101,7 @@ Value of productStatus:
 ### Buat Akun
 ```json
 {
-  "username": "rosyidgrobogan"
+  "username": "rosyidgrobogan",
   "email": "rosyid@bookstore.com",
   "fullName": "Rosyid Grobogan",
   "password": "rahasia",
